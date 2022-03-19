@@ -1,0 +1,7 @@
+---
+name: item-storage
+version: 0.0.1
+main: folosuru\item_storage\Main
+api: 4.1.0
+src-namespace-prefix: folosuru\item_storage
+...
