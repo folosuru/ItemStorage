@@ -42,6 +42,10 @@ class ItemStorage{
 		}
 	}
 
+    public function getAll(): array{
+        return $this->item;
+    }
+
 	/***	system	***/
 
 	public function existsItem(Item $item) : void{
@@ -49,6 +53,7 @@ class ItemStorage{
 			$this->item[$item->getId().':'.$item->getMeta()] = 0;
 		}
 	}
+
 
 
 }
