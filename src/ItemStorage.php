@@ -2,15 +2,13 @@
 
 namespace folosuru\item_storage;
 
-use pocketmine\command\Command;
-use pocketmine\command\CommandSender;
 use pocketmine\item\Item;
 
 class ItemStorage{
-	private $item;
+	private array $item;
 
 	public function __construct(){
-		$this->item =array();
+		$this->item = array();
 	}
 
 
@@ -19,7 +17,7 @@ class ItemStorage{
 		$this->item[$item->getId().':'.$item->getMeta()] = $item->getCount();
 	}
 
-	public function canRemoveItem(Item $item) : bool{
+	public function hasItem(Item $item) : bool{
 		$this->existsItem($item);
 		if ($this->item[$item->getId().':'.$item->getMeta()] >= $item->getCount()){
 			return true;
@@ -34,25 +32,32 @@ class ItemStorage{
 	}
 
 	public function removeItem(Item $item) : void{
-		$this->existsItem($item);
-		if ($this->item[$item->getId().':'.$item->getMeta()] >= $item->getCount()){
-			$this->item[$item->getId().':'.$item->getMeta()] -= $item->getCount();
-		}else{
-			$this->item[$item->getId().':'.$item->getMeta()] = 0;
+		if ($this->item[$item->getId().':'.$item->getMeta()] == $item->getCount()){
+			unset($this->item[$item->getId().':'.$item->getMeta()]);
+		}else {
+			$this->item[$item->getId() . ':' . $item->getMeta()] -= $item->getCount();
 		}
 	}
 
-    public function getAll(): array{
-        return $this->item;
-    }
-
 	/***	system	***/
 
-	public function existsItem(Item $item) : void{
+	private function existsItem(Item $item) : void{
 		if (!array_key_exists($item->getId().':'.$item->getMeta(),$this->item)){
 			$this->item[$item->getId().':'.$item->getMeta()] = 0;
 		}
 	}
+
+	/**
+	 * @return array
+	 */
+	public function getAllItem(): array{
+		return $this->item;
+	}
+
+	public function setAllItem(array $item){
+		$this->item = $item;
+	}
+
 
 
 
